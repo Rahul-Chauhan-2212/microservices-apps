@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: api-gateway
+  main:
+    web-application-type: reactive
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.http.server.reactive: DEBUG
+    org.springframework.web.reactive: DEBUG
+management.endpoints.web.exposure.include: '*'
+management:
+  influx:
+    metrics:
+      export:
+        db: gateway
+        uri: http://localhost:8086
+        auto-create-db: true
+        enabled: true
+        org: rchauhan
+        bucket: bucket
+        token: token
