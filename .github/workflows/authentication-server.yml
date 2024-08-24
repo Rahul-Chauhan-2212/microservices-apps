@@ -32,4 +32,5 @@ jobs:
           ./gradlew jar
       - name: Test
         run: |
+          cd authentication-server
           ./gradlew test
