@@ -11,6 +11,15 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    services:
+      mongo:
+        image: mongo:6
+        options: >-
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 27017:27017
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
@@ -25,3 +34,6 @@ jobs:
         run: |
           cd authentication-server
           ./gradlew jar
+      - name: Test
+        run: |
+          ./gradlew test
