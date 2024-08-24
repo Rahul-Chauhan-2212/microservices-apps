@@ -2,10 +2,12 @@ name: Authentication Server
 
 on:
   push:
+    branches:
+      - master
     paths:
-      - authentication-server
+      - authentication-server/**
   workflow_dispatch:
-  
+
 jobs:
   build:
     runs-on: ubuntu-latest
