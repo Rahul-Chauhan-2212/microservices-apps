@@ -11,6 +11,12 @@ import static com.authn.server.constants.AuthenticationServerConstants.VALIDATE_
 import com.authn.server.exception.GenericException;
 import com.authn.server.service.ClientService;
 import com.authn.server.util.JwtUtilService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.Base64;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +39,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(API_BASE_PATH)
 @Slf4j
+@Tag(name = "Authentication Server APIs")
 public class AuthController {
 
   private final AuthenticationManager authenticationManager;
@@ -51,6 +58,15 @@ public class AuthController {
     this.passwordEncoder = passwordEncoder;
   }
 
+  @Operation(summary = "Creates a client to generate JWT Token")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Client Created",
+          content = {@Content(mediaType = "application/json",
+              schema = @Schema(implementation = String.class))}),
+      @ApiResponse(responseCode = "400", description = "Bad Request",
+          content = @Content),
+      @ApiResponse(responseCode = "500", description = "Internal Server Error",
+          content = @Content)})
   @PostMapping(CLIENT_REGISTRATION)
   public ResponseEntity<String> registerUser(@RequestBody @Valid ClientRequest clientRequest) {
     clientRequest.setClientSecret(passwordEncoder.encode(clientRequest.getClientSecret()));
@@ -58,6 +74,17 @@ public class AuthController {
     return ResponseEntity.ok("Client registered successfully!");
   }
 
+  @Operation(summary = "Generates JWT Token for provided Client Id/Secret in form of Basic Authorization")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "JWT Token Created",
+          content = {@Content(mediaType = "application/json",
+              schema = @Schema(implementation = JwtTokenResponse.class))}),
+      @ApiResponse(responseCode = "400", description = "Bad Request",
+          content = @Content),
+      @ApiResponse(responseCode = "401", description = "Bad Credentials",
+          content = @Content),
+      @ApiResponse(responseCode = "500", description = "Internal Server Error",
+          content = @Content)})
   @PostMapping(TOKEN)
   public ResponseEntity<JwtTokenResponse> generateJwtToken(
       @RequestHeader(AUTHORIZATION_HEADER) String authorizationHeader) {
@@ -85,6 +112,17 @@ public class AuthController {
     return ResponseEntity.ok(jwtUtilService.generateToken(userDetails));
   }
 
+  @Operation(summary = "Validates a JWT Token")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "JWT Token Validation",
+          content = {@Content(mediaType = "application/json",
+              schema = @Schema(implementation = Boolean.class))}),
+      @ApiResponse(responseCode = "400", description = "Bad Request",
+          content = @Content),
+      @ApiResponse(responseCode = "401", description = "Invalid Token",
+          content = @Content),
+      @ApiResponse(responseCode = "500", description = "Internal Server Error",
+          content = @Content)})
   @PostMapping(VALIDATE_TOKEN)
   public ResponseEntity<Boolean> validateToken(
       @RequestBody @Valid JwtTokenRequest tokenRequest) {
