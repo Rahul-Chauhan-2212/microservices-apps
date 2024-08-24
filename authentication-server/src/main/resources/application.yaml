@@ -1,10 +1,23 @@
 spring:
   application:
     name: authentication-server
+  profiles:
+    default: local
   data:
     mongodb:
       uri: mongodb://localhost:27017/authn
+      auto-index-creation: true
 security:
   jwt:
     secret-key: 206bae0cd91cc1ee798074c0c28bed86ce3cc0ab7b6bca5040e1deae4b5ba83d653b5cf26941b2833c8d6426bcfe107252429348e05a1b8fa1e47b5a22d339ee
-    expiration-time: 36
+    expiration-time: 3600000
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: test
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/authn-test

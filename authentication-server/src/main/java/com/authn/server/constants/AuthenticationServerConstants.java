@@ -4,6 +4,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 public class AuthenticationServerConstants {
 
+  private AuthenticationServerConstants() {
+  }
+
   public static final String API_BASE_PATH = "/api/v1/oauth";
 
   public static final String TOKEN = "/token";
@@ -35,5 +38,5 @@ public class AuthenticationServerConstants {
 
   public static final String CLIENT_SECRET_REGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,15}$";
 
-  public static final String FULL_NAME_REGEX = "^[a-zA-Z]+$";
+  public static final String FULL_NAME_REGEX = "^[a-zA-Z ]*$";
 }
