@@ -14,5 +14,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: demo workflow job
-        run: echo This is a demo start workflow
+      - name: Package
+        run: |
+          cd authentication-server
+          ./gradlew jar
