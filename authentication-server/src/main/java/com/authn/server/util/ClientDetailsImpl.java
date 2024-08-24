@@ -1,5 +1,7 @@
-package com.authn.server.entity;
+package com.authn.server.util;
 
+import com.authn.server.entity.Client;
+import com.authn.server.entity.Scope;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -8,6 +10,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+/**
+ * @author rahulchauhan
+ * <p>
+ * Used to convert Client Entity to Spring Security User Details
+ */
 public class ClientDetailsImpl implements UserDetails {
 
   Client client;

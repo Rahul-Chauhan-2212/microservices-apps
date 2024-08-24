@@ -8,10 +8,14 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+/**
+ * @author rahulchauhan
+ */
 @Configuration
 public class SecurityConfig {
 
@@ -27,7 +31,8 @@ public class SecurityConfig {
   }
 
   @Bean
-  public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+  public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
+      throws Exception {
     return config.getAuthenticationManager();
   }
 
@@ -42,10 +47,9 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
-        .csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable())
-        .authorizeHttpRequests((authz) -> authz
-            .anyRequest().permitAll()
-        )
+        .csrf(AbstractHttpConfigurer::disable)
+        .authorizeHttpRequests(authz -> authz
+            .anyRequest().permitAll())
         .authenticationProvider(authenticationProvider());
     return http.build();
   }

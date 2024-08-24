@@ -6,6 +6,9 @@ import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+/**
+ * @author rahulchauhan
+ */
 @Getter
 @Setter
 public abstract class BaseEntity {

@@ -1,19 +1,25 @@
 package com.authn.server.controller;
 
-import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * @author rahulchauhan
+ */
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class AuthenticationRequest {
+public class JwtTokenResponse {
 
-  private UUID clientId;
+  private String access_token;
 
-  private String clientSecret;
+  private Long expires_in;
+
+  private String scopes;
+
+  private String token_type;
 
 }

@@ -1,6 +1,6 @@
 package com.authn.server.entity;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -23,14 +23,14 @@ public class Client extends BaseEntity {
   @Id
   private UUID clientId;
 
-  @NotNull
+  @NotEmpty
+  private String clientSecret;
+
+  @NotEmpty
   private String fullName;
 
-  @NotNull
+  @NotEmpty
   private String email;
-
-  @NotNull
-  private String clientSecret;
 
   private Set<Scope> scopes = new HashSet<>();
 }
